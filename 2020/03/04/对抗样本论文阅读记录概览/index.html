@@ -90,8 +90,21 @@
 <meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/aisecurity-1.png">
 <meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200304210843547.png">
 <meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-block1.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200308185152204.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200309193209247.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200309195128392.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200310183653545.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200310184003583.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200310185433853.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200310185531677.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200316190634628.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200316215034856.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200316220827236-1584367733692.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200316223844506.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200316224020635.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200316224313604.png">
 <meta property="article:published_time" content="2020-03-04T15:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-06T10:12:39.399Z">
+<meta property="article:modified_time" content="2020-03-16T14:48:22.236Z">
 <meta property="article:author" content="Reddoge">
 <meta property="article:tag" content="Adversarial Attack">
 <meta name="twitter:card" content="summary">
@@ -351,7 +364,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  590
+                  4.3k
                 </span>
               
 
@@ -367,7 +380,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2
+                  15
                 </span>
               
             </div>
@@ -417,7 +430,129 @@
 <p> 3、与FGSM以及I-FGSM进行对比实验</p>
 <p><img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-block1.png" alt="image-20200305195757298"></p>
 </li>
-<li><p>创新：</p>
+<li><p>创新：1、借鉴了动量梯度下降法（Momentum）中的动量方法解决了对抗性样本容易产生的局部极大值且容易过拟合的问题。2、攻击多个模型，利用攻击的迁移性提升黑盒攻击的攻击性。3、动量方法易推广到其他的对抗攻击方法中。4、重要的参数：衰减系数μ、迭代次数、扰动大小</p>
+</li>
+<li><p>下一步工作/论文的不足之处：本文没有提到论文下一步的工作和不足的地方，但是通过上述表格看出，在攻击对于IncRes-v2以及Inc-V3的攻击上，效果还是不是显著，但是已经有很大的提升。下一步也是主要针对带有防御的网络，探索如何进行更加有效的攻击。</p>
+</li>
+<li><p>本文对自己的启发：本文通过梯度下降法中的常见方法Momentum，利用其动量特性，极大地提升了对抗性样本的攻击成功率，这一点是可以借鉴的，在以后研究对抗性样本攻击中，可以考虑一下从梯度下降法的多种方法中寻找灵感。</p>
+</li>
+</ul>
+<h5 id="Explaining-And-GHarnessing-Adversarial-Examples"><a href="#Explaining-And-GHarnessing-Adversarial-Examples" class="headerlink" title="Explaining And GHarnessing Adversarial Examples"></a>Explaining And GHarnessing Adversarial Examples</h5><h6 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h6><p>本篇论文是提出经典对抗攻击样本生成方法FGSM的论文，也是我第一篇通过代码实现过的论文，FGSM方法对现阶段的对抗样本生成方法有着很大的影响，后面很多攻击方法也是基于FGSM方法的改进，在这里记录一下论文中的一些思路与方法，贴出Pytorch的代码供大家参考。（代码来源：<a href="https://www.cnblogs.com/tangweijqxx/p/10615950.html）" target="_blank" rel="noopener">https://www.cnblogs.com/tangweijqxx/p/10615950.html）</a></p>
+<p><img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200308185152204.png" alt="image-20200308185152204"></p>
+<h6 id="论文阅读-1"><a href="#论文阅读-1" class="headerlink" title="论文阅读"></a>论文阅读</h6><ul>
+<li><p>序号：2</p>
+</li>
+<li><p>名称：Explaining And GHarnessing Adversarial Examples</p>
+</li>
+<li><p>年份：2014</p>
+</li>
+<li><p>文章类型：方法性文章</p>
+</li>
+<li><p>关键部分：1、FGSM原理：FGSM的全称是Fast Gradient Sign Method(快速梯度下降法），在白盒环境下，通过求出模型对输入的导数，然后用符号函数得到其具体的梯度方向，接着乘以一个步长，得到的“扰动”加在原来的输入上实现其攻击。</p>
+<p> 2、攻击表达式：<br>$$<br>x’=x+\varepsilon\cdot sign(\nabla_xJ(x,y))<br>$$</p>
+</li>
+<li><p>方法：实验/设计/对比</p>
+</li>
+<li><p>存在问题/引出论述：受扰动的模型输入会使得模型以高置信度输出错误的结果，早期是以模型的非线性以及过拟合来解释这种现象（但是最近有文章提出，对于输入的扰动也是一种有用的特征信息）。本文提到神经网络容易受到对抗性扰动的主要原因在于模型的线性特性，同时这种解释也在文章中进行了首次解释。  </p>
+</li>
+<li><p>解决途径/建议/对策：1、对抗性样本的解释：①数字图像每个像素仅适用八位，因此会丢弃低于动态范围1/255以内的所有信息，所以如果加入小于特征精度的扰动来使分类器产生不同响应这种方法是不合理的。</p>
+<p>②加入sign函数，使得扰动的最大范数约束增加。对于高维问题，可以通过许多无穷小的变换从而得到一个大的输出。也证明了如果简单线性模型输入具有足够的维度，就可以具有对抗性样本。</p>
+<p>2、非线性模型扰动：①扰动造成的影响在神经网络当中会像滚雪球一样越来越大，对于线性模型越是如此。而目前神经网络中倾向于使用Relu这种类线性的激活函数，使得网络整体趋近于线性。②输入的维度越大，模型越容易受到攻击。</p>
+</li>
+<li><p>创新：1、提出了简单易行的攻击方法。2、利用sign函数增强扰动。3、对对抗性样本的存在性和合理性进行了解释。4、揭示了对抗性攻击的线性以及非线性对于扰动程度的影响</p>
+</li>
+<li><p>下一步工作/论文的不足之处：FGSM属于一步攻击，虽然刚提出时对于各种神经网络都能起到一定的攻击效果，但是随着神经网络的鲁棒性增加，以及伴随着各种防御手段的提出，攻击效果变得越来越不明显。后续基于此算法提出了例如I-FGSM等改进算法都值得学习借鉴。</p>
+</li>
+<li><p>本文对自己的启发：本文应当属于对抗性样本生成的最早的论文之一了，通过基于梯度的前向后向传播，探索出了一种对神经网络的攻击方式，对于整个领域来说都有着重大的意义。且本文也揭示了，对抗攻击以及防御是一个矛盾过程，会相互促进一直发展，所以要探索现阶段比较先进的攻击方式，也得多积累一些比较经典的攻击算法。</p>
+</li>
+</ul>
+<h6 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">class FGSM(nn.Module):</span><br><span class="line">     def __init__(self,model):</span><br><span class="line">         super().__init__()</span><br><span class="line">         self.model&#x3D;model#必须是pytorch的model</span><br><span class="line">         self.device&#x3D;torch.device(&quot;cuda&quot; if (torch.cuda.is_available()) else &quot;cpu&quot;)</span><br><span class="line">     def generate(self,x,**params):</span><br><span class="line">         self.parse_params(**params)</span><br><span class="line">         labels&#x3D;self.y</span><br><span class="line">         if self.rand_init:</span><br><span class="line">            x_new &#x3D; x + torch.Tensor(np.random.uniform(-self.eps, self.eps, x.shape)).type_as(x).cuda()</span><br><span class="line"></span><br><span class="line">        # get the gradient of x</span><br><span class="line">        x_new&#x3D;Variable(x_new,requires_grad&#x3D;True)</span><br><span class="line">        loss_func &#x3D; nn.CrossEntropyLoss()</span><br><span class="line">        preds &#x3D; self.model(x_new)</span><br><span class="line">        if self.flag_target:</span><br><span class="line">            loss &#x3D; -loss_func(preds, labels)</span><br><span class="line">        else:</span><br><span class="line">            loss &#x3D; loss_func(preds, labels)</span><br><span class="line">        self.model.zero_grad()</span><br><span class="line">        loss.backward()</span><br><span class="line">        grad &#x3D; x_new.grad.cpu().detach().numpy()</span><br><span class="line">        # get the pertubation of an iter_eps</span><br><span class="line">        if self.ord&#x3D;&#x3D;np.inf:</span><br><span class="line">            grad &#x3D;np.sign(grad)</span><br><span class="line">        else:</span><br><span class="line">            tmp &#x3D; grad.reshape(grad.shape[0], -1)</span><br><span class="line">            norm &#x3D; 1e-12 + np.linalg.norm(tmp, ord&#x3D;self.ord, axis&#x3D;1, keepdims&#x3D;False).reshape(-1, 1, 1, 1)</span><br><span class="line">            # 选择更小的扰动</span><br><span class="line">            grad&#x3D;grad&#x2F;norm</span><br><span class="line">        pertubation &#x3D; grad*self.eps</span><br><span class="line"></span><br><span class="line">        adv_x &#x3D; x.cpu().detach().numpy() + pertubation</span><br><span class="line">        adv_x&#x3D;np.clip(adv_x,self.clip_min,self.clip_max)</span><br><span class="line"></span><br><span class="line">        return adv_x</span><br><span class="line"></span><br><span class="line">    def parse_params(self,eps&#x3D;0.3,ord&#x3D;np.inf,clip_min&#x3D;0.0,clip_max&#x3D;1.0,</span><br><span class="line">                     y&#x3D;None,rand_init&#x3D;False,flag_target&#x3D;False):</span><br><span class="line">        self.eps&#x3D;eps</span><br><span class="line">        self.ord&#x3D;ord</span><br><span class="line">        self.clip_min&#x3D;clip_min</span><br><span class="line">        self.clip_max&#x3D;clip_max</span><br><span class="line">        self.y&#x3D;y</span><br><span class="line">        self.rand_init&#x3D;rand_init</span><br><span class="line">        self.model.to(self.device)</span><br><span class="line">        self.flag_target&#x3D;flag_target</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="DeepFool-a-simple-and-accurate-method-to-fool-deep-neural-networks"><a href="#DeepFool-a-simple-and-accurate-method-to-fool-deep-neural-networks" class="headerlink" title="DeepFool: a simple and accurate method to fool deep neural networks"></a>DeepFool: a simple and accurate method to fool deep neural networks</h5><h6 id="前言-2"><a href="#前言-2" class="headerlink" title="前言"></a>前言</h6><p>DeepFool也是对抗攻击领域很出名的一种攻击算法，下图是Deepfool和FGSM添加扰动的对比，判别器都把“河马”分类为了“乌龟“，但是上图为DeepFool所添加的扰动，可见，Deepfool通过添加较少的扰动也欺骗神经网络。</p>
+<p><img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200309193209247.png" alt="image-20200309193209247"></p>
+<h6 id="论文阅读-2"><a href="#论文阅读-2" class="headerlink" title="论文阅读"></a>论文阅读</h6><ul>
+<li><p>序号：3</p>
+</li>
+<li><p>名称：DeepFool: a simple and accurate method to fool deep neural networks  </p>
+</li>
+<li><p>年份：2016</p>
+</li>
+<li><p>文章类型：方法性文章</p>
+</li>
+<li><p>关键部分：1、一种简单而高效的攻击方法  2、在论文提出的期间属于可靠的攻击方法  3、利用对抗性训练提高了模型的鲁棒性  4、帮助更好地理解对抗性样本的存在</p>
+</li>
+<li><p>方法：实验/对比/优化</p>
+</li>
+<li><p>存在问题/引出论述：  深度神经网络在图像分类方面取得了巨大的成功，但同时也被证明容易受到噪声扰动的攻击，虽然这种现象对于神经网络的稳定性和安全性方面非常重要，但是至今都黑没有提出有效的方法来准确计算神经网络对于扰动的鲁棒性，本文填补了这一空白，提出了有效计算出扰动且量化分类器鲁棒性的方法。</p>
+</li>
+<li><p>解决途径/建议/对策：1、对于线性二分类模型，F为其分类面，f是一个分类器，最简单的最小扰动就是垂直与分类面大小为$\Delta（x_0;f）$且$r*(x_0)=argmin||r||_2$可以计算出扰动大小，其中对于距离的定义为：<br>$$<br>-f(x_0)/||w||_2^2<br>$$<br>其中，w为参数矩阵。下图为二分类模型的图像示意：</p>
+<p><img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200309195128392.png" alt="image-20200309195128392"></p>
+<p>2、线性二分类问题DeepFool算法流程图：</p>
+<p><img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200310183653545.png" alt="image-20200310183653545"> </p>
+<p>3、关于非线性多分类问题：① 首先解决多分类问题：对于多分类问题，假设$x_0$的正确分类为第四类，我们只需要分别计算$x_0$到另外三类的最短距离，然后选择最小的那个。</p>
+<p><img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200310184003583.png" alt="image-20200310184003583"></p>
+<p>② 对非线性问题，如下图，图中实线表示分类器真实的分类超平面，而虚线则代表近似的线性分类超平面，在每次迭代过程中，总是基于当前的迭代值，计算一组近似的线性分类超平面，并根据这组近似超平面，计算扰动，并进行迭代得到下一次的迭代值。</p>
+<p><img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200310185433853.png" alt="image-20200310185433853"></p>
+<p>③ 以下为非线性多分类Deepfool算法流程图：</p>
+<p><img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200310185531677.png" alt="image-20200310185531677"></p>
+</li>
+<li><p>创新：1、提出了DeepFool算法，用于生成对抗样本，且添加扰动比FGSM方法要小得多。2、提出的算法能够准确地估计对抗性扰动，从而提出了一种用于估计分类器鲁棒性的方法。3、通过本文提出的方法与工具可以准确地估计最小扰动，建立鲁棒性更强的分类器。</p>
+</li>
+<li><p>下一步工作/论文的不足之处：本文提出了一种新的攻击方法，且添加扰动要比FGSM小，且提出了一种估计分类器鲁棒性的方法。但是同样Deepfool是针对单一样本进行噪声的添加，从而起到欺骗分类器的效果。下一步的工作可能是研究一种比较通用的扰动，也或许是针对单一扰动更加有力的对抗样本生成方法。</p>
+</li>
+<li><p>本文对自己的启发：本文提出的一种向量范围内的扰动距离，很值得借鉴，而且本文的一种量化思维和迭代方法也需要后来再仔细琢磨一下。这篇文章公式较多，在阅读的时候花了很多时间看公式，后续还需要自己通过代码实现来理解一下。</p>
+</li>
+</ul>
+<h5 id="Universal-adversarial-perturbations"><a href="#Universal-adversarial-perturbations" class="headerlink" title="Universal adversarial perturbations"></a>Universal adversarial perturbations</h5><h6 id="前言-3"><a href="#前言-3" class="headerlink" title="前言"></a>前言</h6><p>本文在已有扰动的基础上进行了经验上的分析，提出了一种能够生成普遍性扰动的算法，并表明了这些扰动在整个神经网络中具有很高的囊括性，普遍扰动的惊人之处在于揭示了分类器的高维决策边界之间的几何关系，从而进一步揭露了输入层这单个方向上存在的安全漏洞。本文也是对抗攻击领域非常具有影响力的一篇文章，</p>
+<p><img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200316190634628.png" alt="image-20200316190634628"></p>
+<h6 id="论文阅读-3"><a href="#论文阅读-3" class="headerlink" title="论文阅读"></a>论文阅读</h6><ul>
+<li><p>序号：4</p>
+</li>
+<li><p>名称：Universal adversarial perturbations  </p>
+</li>
+<li><p>年份：2017</p>
+</li>
+<li><p>文章类型：方法性文章</p>
+</li>
+<li><p>关键部分：1、提出了一种构造不可察觉的普遍性扰动的方法  2、普遍性扰动对于最先进的深度神经网络有很好的干扰作用  3、证明了普遍性扰动的泛化特征  4、通过实验解释和分析了神经网络的高维脆弱性 5、确定了决策边界的不同部分的几何相关性</p>
+</li>
+<li><p>方法：实验/对比/优化</p>
+</li>
+<li><p>存在问题/引出论述：  在之前两篇论文笔记中提及的对抗样本生成方法几乎都是对不同的对抗样本添加不同的噪声，噪声依赖于某一特定样本的特征。本文中，作者试图寻找一种通用的对抗扰动，使添加完该扰动后的所有原始图片都会被误分类为其他类别。</p>
+</li>
+<li><p>解决途径/建议/对策：1、本文所寻找的对抗扰动在保证不影响原始样本的真实分布的前提下，具有很好的泛化能力，不仅是所有输入图片通用，还在不同的网络结构间通用，算法流程如下：</p>
+<img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200316215034856.png" alt="image-20200316215034856" style="zoom: 80%;" />
+
+<p>2、算法解释：</p>
+</li>
+</ul>
+<p>  令$μ$ 为一组图片的分布，$\widetilde k$ 表示分类器，本文的目的是要寻找到一个$v$，使得大多数分布为$μ$ 的图片，在添加完该噪声之后被分类器分类为与真实类别不同的类别（无目标攻击），即：</p>
+<p>$$<br>  \widetilde k(x+v)\neq \widetilde k(x)<br>$$<br>  且所求$v$扰动需满足：</p>
+<p>  ① 扰动大小约束：$||v||\leq \xi$</p>
+<p>  ② 扰动成功率约束条件：$P_x(\widetilde k(x+v)\neq \widetilde k(x)) \geq 1-\delta$</p>
+<p>  3、扰动的更新过程：</p>
+  <img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200316220827236-1584367733692.png" style="zoom:80%;" />
+
+<p>  如上图，$x_1$,$x_2$,$x_3$样本点是重合的，$R_1$,$R_2$,$R_3$表示不同的分类域。先在$R_1$中，找到最佳的脱离分类域的扰动，更新一次$x$，再根据新的$x$找到脱离$R_2$分类域的扰动，以此类推，最终计算出最优扰动$v$。</p>
+<p>  具体的计算方法 如下：</p>
+<p>  ① 先令$v=0$，如果当前扰动不是最优的扰动，则：$\Delta v_i \leftarrow argmin||r||_2$  使得 $\widetilde k(x_i+v+r)\neq \widetilde k(x_i)$。</p>
+<p>  ② 要使得$v$满足约束条件，对更新的扰动进行变换：$P_x,_\xi(v)=argmin_v||v’-v||$ s.t.$||v’||_p\leq \xi$</p>
+<p>  ③ $v$的更新法则：$\Delta v \leftarrow P_x,_\xi(v+\Delta v_i)$</p>
+<p>  ④ 算法的截止条件为：$Err(X_v):=\frac{1}{m}\sum_{i=1}^m1_{\widetilde k(x+v)\neq \widetilde k(x)}\geq 1-\delta$</p>
+<p>  其中，$X_v :=${$x_1+v,\cdots,x_m+v$}标示原数据集添加了同一扰动后生成的对抗样本集，上式计算了所得扰动的成功率，当成功率大于预设值时，训练结束，算法流程如下图所示。</p>
+<ul>
+<li><p>创新：1、提出了一种通用的扰动，且在多种先进网络上取得了很好的成功率。</p>
+<p><img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200316223844506.png" alt="image-20200316223844506"></p>
+<p>2、在不同模型之间的白盒以及黑盒攻击进行实验，得到了如下图的成功率。</p>
+<p><img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200316224020635.png" alt="image-20200316224020635"></p>
+<p>3、通过实验解释和分析了神经网络的高维脆弱性以及决策边界的不同部分的几何相关性。</p>
+<img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200316224313604.png" alt="image-20200316224313604" style="zoom:80%;" />
+</li>
+<li><p>下一步工作/论文的不足之处：1、更加强力的通用扰动算法 2、针对目前存在的防御方式的通用扰动方式设计 3、对决策边界不同部分之间的几何相关性的理论分析将成为未来研究的主题。  </p>
+</li>
+<li><p>本文对自己的启发：本文提出了一种可以用于大多数神经网络的普遍性扰动的生成算法，且解释了神经网络的高维脆弱性以及决策边界的相关性，是一篇很有内容且很有启发的文章。也告诉研究者，要通过单一的扰动现象去寻找更深层次的规律和特征。近期也有一篇文章指出，对抗攻击样本并不是神经网络的bug而是确实有用的特征信息。所以针对对抗性样本的普遍规律的寻找和神经网络高维脆弱性的探索，也是后续的一些很有意义的工作。</p>
 </li>
 </ul>
 
@@ -633,7 +768,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#论文列表"><span class="nav-number">1.</span> <span class="nav-text">论文列表</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Boosting-Adversarial-Attacks-with-Momentum"><span class="nav-number">1.1.</span> <span class="nav-text">Boosting Adversarial Attacks with Momentum</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#前言"><span class="nav-number">1.1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#论文阅读"><span class="nav-number">1.1.2.</span> <span class="nav-text">论文阅读</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#论文列表"><span class="nav-number">1.</span> <span class="nav-text">论文列表</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Boosting-Adversarial-Attacks-with-Momentum"><span class="nav-number">1.1.</span> <span class="nav-text">Boosting Adversarial Attacks with Momentum</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#前言"><span class="nav-number">1.1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#论文阅读"><span class="nav-number">1.1.2.</span> <span class="nav-text">论文阅读</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Explaining-And-GHarnessing-Adversarial-Examples"><span class="nav-number">1.2.</span> <span class="nav-text">Explaining And GHarnessing Adversarial Examples</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#前言-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#论文阅读-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">论文阅读</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#代码"><span class="nav-number">1.2.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DeepFool-a-simple-and-accurate-method-to-fool-deep-neural-networks"><span class="nav-number">1.3.</span> <span class="nav-text">DeepFool: a simple and accurate method to fool deep neural networks</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#前言-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#论文阅读-2"><span class="nav-number">1.3.2.</span> <span class="nav-text">论文阅读</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Universal-adversarial-perturbations"><span class="nav-number">1.4.</span> <span class="nav-text">Universal adversarial perturbations</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#前言-3"><span class="nav-number">1.4.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#论文阅读-3"><span class="nav-number">1.4.2.</span> <span class="nav-text">论文阅读</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -686,7 +821,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共1.3k字</span>
+  <span class="post-count">博客全站共5k字</span>
 </div>
 
         
