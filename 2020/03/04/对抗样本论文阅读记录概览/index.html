@@ -108,11 +108,11 @@
 <meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200331172524030.png">
 <meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200331172627656.png">
 <meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200331183649804.png">
-<meta property="og:image" content="e:/web/GitHub/Reddoge/source/image/image-20200331190001739.png">
+<meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200331225454706.png">
 <meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200331191212094.png">
 <meta property="og:image" content="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200331191312545.png">
 <meta property="article:published_time" content="2020-03-04T15:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-31T14:46:38.264Z">
+<meta property="article:modified_time" content="2020-03-31T14:55:06.766Z">
 <meta property="article:author" content="Reddoge">
 <meta property="article:tag" content="Adversarial Attack">
 <meta name="twitter:card" content="summary">
@@ -618,7 +618,7 @@ x'=x+\varepsilon\cdot sign(\nabla_xJ(x,y))</script></li>
 <li><p>解决途径/建议/对策：1、有关于物理世界中的攻击：尽管对抗攻击在数字领域很成功，但是在真实世界中，对抗攻击的效率依旧很低，但是也具有进一步发展的潜力，如将对抗性图像印在手机上然后使用手机拍摄，仍然可以欺骗神经网络。</p>
 <p>2、关于构造现实世界对抗性示例最成功的典范——期望转换（EOT）算法：</p>
 <p>​                                                              $1.f(x)=c_{gt}\neq c_t$</p>
-<p><img src="E:\web\GitHub\Reddoge\source\image\image-20200331190001739.png" alt="image-20200331190001739" style="zoom: 67%;" /></p>
+<p><img src="http://q6kao6qhw.bkt.clouddn.com/qiniu_picGO/image-20200331225454706.png" alt="image-20200331225454706" style="zoom:67%;" /></p>
 <p>3、贴纸的转换：作者将贴纸放置时发生的转换分为两个步骤，贴纸的平面外弯曲和贴纸的俯仰旋转，作者将这两种变化都模拟为3D空间中的抛物线变换，并使用空间变换层（STL）将获得的标签投影到面部图像上。</p>
 <p>4、攻击方式：本文中使用具有动量的迭代FGSM和在实验中有效的几种启发式方法。将攻击分为两个阶段。① 在第一阶段，只用等于于5的步长值和等于0.9的动量。②在第二阶段，我们使用等于255的步长值，动量等于0.995。损失的权重始终等于1e-4。使用一张带有标签的固定图像作为验证，在该验证中，将所有参数设置为最真实的外观值。最后使用最小二乘法通过线性函数对最后100个验证值进行插值：第一阶段进行100次迭代之后，第二阶段进行200次迭代之后。如果该线性函数的角系数不小于零，则：如果在第一阶段，进入攻击的第二阶段；如果在第二阶段，则停止攻击。  </p>
 </li>
