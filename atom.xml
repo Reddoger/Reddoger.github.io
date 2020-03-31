@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-06T09:36:07.006Z</updated>
+  <updated>2020-03-31T11:28:51.878Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,9 +17,35 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>LeetCode方法学习</title>
+    <link href="http://yoursite.com/2020/03/31/LeetCode%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
+    <id>http://yoursite.com/2020/03/31/LeetCode%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/</id>
+    <published>2020-03-31T11:27:00.000Z</published>
+    <updated>2020-03-31T11:28:51.878Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>本文是Bilibili花生酱视频的一个笔记记录，主要针对目前LeetCode刚起步的小白如何进行刷题的指导，也是对于视频学习的一个笔记，方便后续进行回看复习。</p><h3 id="两数字之和"><a href="#两数字之和" class="headerlink" title="两数字之和"></a>两数字之和</h3><p>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。</p><p>你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。</p><p>示例:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">给定 nums &#x3D; [2, 7, 11, 15], target &#x3D; 9</span><br><span class="line"></span><br><span class="line">因为 nums[0] + nums[1] &#x3D; 2 + 7 &#x3D; 9</span><br><span class="line"></span><br><span class="line">所以返回 [0, 1]</span><br></pre></td></tr></table></figure><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>1、用两层循环进行解题，不过提交结果后提示 “超出时间限制”，这里就不使用了。</p><p>2、解题思路是在方法一的基础上，优化解法。想着，num2 的查找并不需要每次从 nums 查找一遍，只需要从 num1 位置之前或之后查找即可。但为了方便 index 这里选择从 num1 位置之前查找，我运行使用了28ms：</p><p>Python3：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def twoSum(nums, target):</span><br><span class="line">    lens &#x3D; len(nums)</span><br><span class="line">    j&#x3D;-1</span><br><span class="line">    for i in range(1,lens):</span><br><span class="line">        temp &#x3D; nums[:i] #从nums的地方进行查找，1st:[2,7,11,15] &#x3D;&gt; [2,7]</span><br><span class="line">        if (target - nums[i]) in temp: # 9-2 &#x3D; 7 &#x3D;&gt; True</span><br><span class="line">            j &#x3D; temp.index(target - nums[i]) # j&#x3D;1(索引)</span><br><span class="line">            break #跳出循环</span><br><span class="line">    if j&gt;&#x3D;0: #如果存在，返回[j,i]</span><br><span class="line">        return [j,i]</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def twoSum(nums, target):</span><br><span class="line">    hashmap&#x3D;&#123;&#125;</span><br><span class="line">    for i,num in enumerate(nums):</span><br><span class="line">        if hashmap.get(target - num) is not None:</span><br><span class="line">            return [i,hashmap.get(target - num)]</span><br><span class="line">        hashmap[num] &#x3D; i #这句不能放在if语句之前，解决list中有重复值或target-num&#x3D;num的情况</span><br></pre></td></tr></table></figure><p>C++：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">        map&lt;int,int&gt; a;&#x2F;&#x2F;提供一对一的hash</span><br><span class="line">        vector&lt;int&gt; b(2,-1);&#x2F;&#x2F;用来承载结果，初始化一个大小为2，值为-1的容器b</span><br><span class="line">        for(int i&#x3D;0;i&lt;nums.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(a.count(target-nums[i])&gt;0)</span><br><span class="line">            &#123;</span><br><span class="line">                b[0]&#x3D;a[target-nums[i]];</span><br><span class="line">                b[1]&#x3D;i;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            a[nums[i]]&#x3D;i;&#x2F;&#x2F;反过来放入map中，用来获取结果下标</span><br><span class="line">        &#125;</span><br><span class="line">        return b;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h3&gt;&lt;p&gt;本文是Bilibili花生酱视频的一个笔记记录，主要针对目前LeetCode刚起步的小白如何进行刷题的指导，也是对于视频学习
+      
+    
+    </summary>
+    
+    
+      <category term="LeetCode" scheme="http://yoursite.com/categories/LeetCode/"/>
+    
+    
+      <category term="LeetCode" scheme="http://yoursite.com/tags/LeetCode/"/>
+    
+  </entry>
+  
+  <entry>
     <title>LeetCode刷题记录</title>
-    <link href="http://yoursite.com/2020/03/04/LeetCode%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
-    <id>http://yoursite.com/2020/03/04/LeetCode%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/</id>
+    <link href="http://yoursite.com/2020/03/04/LeetCode%E5%88%B7%E9%A2%98%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0/"/>
+    <id>http://yoursite.com/2020/03/04/LeetCode%E5%88%B7%E9%A2%98%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0/</id>
     <published>2020-03-04T15:23:34.000Z</published>
     <updated>2020-03-06T09:36:07.006Z</updated>
     
